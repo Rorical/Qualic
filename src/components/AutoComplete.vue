@@ -14,7 +14,7 @@ if (localChar) {
 
 const emits = defineEmits(["selected"])
 
-const systemPrompt = settings["@background"] + "\n\nCharacters:\n" + settings["@characters"]
+const systemPrompt = + "# 背景信息:\n" + settings["@background"] + "\n\n# 角色列表:\n" + settings["@characters"]
 
 const chatCompletion = async (prompt) => {
   const response = await fetch(settings.gptEndpoint + "v1/chat/completions", {
@@ -26,8 +26,7 @@ const chatCompletion = async (prompt) => {
     body: JSON.stringify({
       model: settings.gptModel,
       messages: [
-        { role: 'system', content: systemPrompt},
-        { role: 'system', content: prompt }
+        { role: 'system', content: systemPrompt + "\n\n# 对话内容:\n" + prompt}
       ],
       temperature: parseFloat(settings.gptTemperature),
       stop: ['\n\n'],
